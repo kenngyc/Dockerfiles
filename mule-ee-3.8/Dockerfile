@@ -19,6 +19,13 @@ RUN                     rm -f  mule-ee-distribution-standalone-3.8.0.tar.gz
 WORKDIR                 /opt/mule-enterprise-standalone-3.8.0
 ADD                     ./data-mapper-plugin-3.8.0.zip /opt/mule-enterprise-standalone-3.8.0/plugins/
 
+# Uncomment if you want to copy and install the license
+# Take note the name of the license file name
+#WORKDIR                 /opt/mule-enterprise-standalone-3.8.0
+#ADD                     ./mule-ee-license.lic /opt/mule-enterprise-standalone-3.8.0/conf/
+#RUN                     bin/mule -installLicense conf/mule-ee-license.lic
+#RUN                     rm -f conf/mule-ee-license.lic
+
 # Configure external access:
 
 # HTTP Service Port
