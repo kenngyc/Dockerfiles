@@ -32,6 +32,9 @@ ADD                     ./data-mapper-plugin-3.8.0.zip /opt/mule-enterprise-stan
 # Expose the necessary port ranges as required by the Mule Apps
 EXPOSE 8081-8082
 
+# Mule HTTPS port
+EXPOSE  443
+
 # Mule remote debugger
 EXPOSE  5000
 
@@ -40,9 +43,6 @@ EXPOSE  1098
 
 # Mule MMC agent port
 EXPOSE  7777
-
-# Mule HTTPS port
-EXPOSE  443
 
 # Environment and execution:
 
