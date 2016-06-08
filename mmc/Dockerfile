@@ -15,7 +15,7 @@ COPY                    ./mmc-console-3.8.0.war /usr/local/tomcat/webapps/mmc.wa
 # Expose the HTTP Ports
 EXPOSE 8080
 EXPOSE 443
-EXPOSE 7777-7877
+EXPOSE 7777-7787
 
 # Environment and execution:
 
