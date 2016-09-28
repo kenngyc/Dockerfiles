@@ -41,14 +41,36 @@ echo "Registering $serverName to Anypoint Platform..."
 echo "De-registering $serverName from Anypoint Platform..."
 
 # Get Server ID from AMC
-echo "Getting server ID from $hybridAPI/servers..."
+echo "Getting server details from $hybridAPI/servers..."
+serverData=$(curl -s $hybridAPI/servers/ -H "X-ANYPNT-ENV-ID:$envId" -H "X-ANYPNT-ORG-ID:$orgId" -H "Authorization:Bearer $accessToken")
+
 jqParam=".data[] | select(.name==\"$serverName\").id"
-serverId=$(curl -s $hybridAPI/servers/ -H "X-ANYPNT-ENV-ID:$envId" -H "X-ANYPNT-ORG-ID:$orgId" -H "Authorization:Bearer $accessToken" | jq --raw-output "$jqParam")
-echo "ServerID $serverName: $serverId"
+serverId=$(echo $serverData | jq --raw-output "$jqParam")
+echo "ServerId $serverName: $serverId"
+
+jqParam=".data[] | select(.name==\"$serverName\").clusterId"
+clusterId=$(echo $serverData | jq --raw-output "$jqParam")
+if [ "$clusterId" != "" ]
+  then
+    echo "$serverName is found in cluster ID: $clusterId"
+
+    # Removing mule server from the cluster
+    echo "Removing server from cluster at $hybridAPI/clusters/$clusterId/servers/$serverId..."
+    rmResponse=$(curl -s -X "DELETE" "$hybridAPI/clusters/$clusterId/servers/$serverId" -H "X-ANYPNT-ENV-ID:$envId" -H "X-ANYPNT-ORG-ID:$orgId" -H "Authorization:Bearer $accessToken")
+
+    # If error response from removing last one mule server from the cluster
+    if [ "$rmResponse" != "" ]
+      then
+        echo "Looks like $serverName is the last server in the cluster."
+        echo "Removing cluster at $hybridAPI/clusters/$clusterId..."
+        curl -s -X "DELETE" "$hybridAPI/clusters/$clusterId" -H "X-ANYPNT-ENV-ID:$envId" -H "X-ANYPNT-ORG-ID:$orgId" -H "Authorization:Bearer $accessToken"
+    fi
+
+fi
 
 # Deregister mule from ARM
 echo "Deregistering Server at $hybridAPI/servers/$serverId..."
-curl -X "DELETE" "$hybridAPI/servers/$serverId" -H "X-ANYPNT-ENV-ID:$envId" -H "X-ANYPNT-ORG-ID:$orgId" -H "Authorization:Bearer $accessToken"
+curl -s -X "DELETE" "$hybridAPI/servers/$serverId" -H "X-ANYPNT-ENV-ID:$envId" -H "X-ANYPNT-ORG-ID:$orgId" -H "Authorization:Bearer $accessToken"
 
 echo "Everything looks clean now."
 echo "Live long and prosper."

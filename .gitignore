@@ -6,3 +6,5 @@
 *.zip
 
 *.war
+
+.DS_Store
