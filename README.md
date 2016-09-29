@@ -16,7 +16,7 @@ The nodes can discover and communicate between each other within for the cluster
 
 Both multicast and unicast clustering configuration is supported.
 
-> For Unicast clustering, Anypoint Runtime Manager triggers a restart on the cluster upon any changes on the cluster membership.*
+> For Unicast clustering, Anypoint Runtime Manager triggers a restart on the cluster upon any changes on the cluster membership.
 
 ***Multi-host clustering***: This image however has not been tested for For clustering across different Docker host machines, I've not yet tested this scenario. The Dockerfile exposes port 5701 and port 54327 but the port is not mapped in the startDockerContainer.sh script.
 
@@ -30,7 +30,7 @@ To run it, use the provided startDockerContainer.sh script. The format is self e
 ./startDockerContainer.sh <version> <username> <password> <orgName> <envName> <httpPort> <httpsPort>
 ```
 1. ***version*** defines the version of Mule to be used. As for now, only 3.8.1 is available.
-2. ***username*** and ***password*** is your Anypoint Platform's username and password. (*The script can be modified to request for the password to be typed in on every run with the **read** command.*)
+2. ***username*** and ***password*** is your Anypoint Platform's username and password. (_The script can be modified to request for the password to be typed in on every run with the **read** command._)
 3. ***orgName*** is the name of the Organization where you want your Mule intances to be registered to.
 4. ***envName*** is the target environment of the selected Organization.
 5. ***httpPort*** is the external HTTP service port that you want to be mapped to the internal port 8081.
@@ -74,6 +74,7 @@ docker run -i -t --rm \
 The script is based on the version of ARM and CoreServices as of Sept 2016.
 
 > ARM baseUri: https://anypoint.mulesoft.com/hybrid/api/v1
+
 > Core Services baseUri: https://anypoint.mulesoft.com/accounts
 
 On the de-registration of the Mule runtime from Anypoint Runtime Manager, it first checks if the server is a member of a cluster, and if it is, it will proceed to remove itself from the cluster first. The script also further checks if it is the last member of the cluster, and if so, it will proceed to delete the cluster.
