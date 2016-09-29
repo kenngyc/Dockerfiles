@@ -43,9 +43,9 @@ RUN     rm -f $muleDistribution
 # ADD     ./data-mapper-plugin-$muleVersion.zip /opt/mule/plugins/
 
 ## Copy the License file - pre-package into docker image to avoid leakage
-ADD     ./mule-ee-license.lic /opt/mule/conf/
-RUN     /opt/mule/bin/mule -installLicense /opt/mule/conf/mule-ee-license.lic
-RUN     rm -f /opt/mule/conf/mule-ee-license.lic
+# ADD     ./mule-ee-license.lic /opt/mule/conf/
+# RUN     /opt/mule/bin/mule -installLicense /opt/mule/conf/mule-ee-license.lic
+# RUN     rm -f /opt/mule/conf/mule-ee-license.lic
 
 ## Copy the mule start/stop script
 ADD     ./startMule.sh /opt/mule/bin/
@@ -53,6 +53,7 @@ RUN     chmod 755 /opt/mule/bin/startMule.sh
 
 ###############################################################################
 ## Configure mule runtime access pre-requisites
+
 ## HTTPS Port for Anypoint Platform communication
 EXPOSE  443
 
@@ -62,13 +63,20 @@ EXPOSE  5000
 ## Mule JMX port (must match Mule config file)
 EXPOSE  1098
 
+## Mule Cluster ports
+EXPOSE 5701
+EXPOSE 54327
+
 ###############################################################################
 ## Expose the necessary port ranges as required by the apps to be deployed
+
 ## HTTP Service Port
 EXPOSE 8081
 
 ## HTTPS Service Port
 EXPOSE 8091
+
+###############################################################################
 
 ## Environment and execution:
 ENV             MULE_BASE /opt/mule
