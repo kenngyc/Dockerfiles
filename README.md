@@ -92,6 +92,8 @@ The docker container includes
 - mule-ee-distribution-standalone-3.8.1.tar.gz
 - mule-ee-license.lic *(License file installation is commented out on the Dockerfile by default)*
 
+> I've inserted the license installation here so that the image is pre-installed with the license, rather than doing it as part of the Docker run process that requires whoever running it to have the license file. I know this is probably not the best use-case for a generic/public image, but in an enterprise scenario, I assume the license file would also not be freely distributed to everyone that wants to run the image.
+
 To build the docker image use the docker build command with the -t parameter to tag the docker image.
 ```sh
 sudo docker build -t [your-docker-hub-id]/mule-ee:3.8.1 .
