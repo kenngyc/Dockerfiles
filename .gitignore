@@ -8,3 +8,5 @@
 *.war
 
 .DS_Store
+
+mule-ee-3.8/test.sh

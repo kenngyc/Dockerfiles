@@ -50,7 +50,8 @@ echo "ServerId $serverName: $serverId"
 
 jqParam=".data[] | select(.name==\"$serverName\").clusterId"
 clusterId=$(echo $serverData | jq --raw-output "$jqParam")
-if [ "$clusterId" != "" ]
+
+if [ "$clusterId" != "null" ]
   then
     echo "$serverName is found in cluster ID: $clusterId"
 
